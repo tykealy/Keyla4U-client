@@ -1,18 +1,22 @@
 import { Dialog, DialogTitle, TextField } from "@mui/material";
 import PropTypes from "prop-types";
-export default function LoginDialog(Props) {
-  const { onClose, open } = Props;
+import SignInForm from "../presentation/SignInForm";
+const LoginDialog = (props) => {
+  const { onClose, open, title, pl } = props;
   return (
     <div style={{}}>
       <Dialog onClose={onClose} open={open}>
-        <DialogTitle>Login Form</DialogTitle>
-        <TextField variant="filled"></TextField>
+        <SignInForm />
       </Dialog>
     </div>
   );
-}
+};
 
 LoginDialog.propTypes = {
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
+  pl: PropTypes.string,
 };
+
+export default LoginDialog;
