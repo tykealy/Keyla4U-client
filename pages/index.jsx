@@ -2,27 +2,31 @@ import React from "react";
 import styles from "../styles/Home.module.css";
 import LoginDialog from "../components/parent/LoginDialog";
 import RegisterDialog from "../components/parent/RegisterDialog";
-import { Button } from "@mui/material";
+import ModButton from "../components/presentation/ModButton";
 export default function Home() {
-  const [open, setOpen] = React.useState(false);
+  const [openLogin, setOpenLogin] = React.useState(false);
+  const [openSingUp, setOpenSignUp] = React.useState(false);
 
   function onClose() {
-    setOpen(false);
+    setOpenLogin(false);
+    setOpenSignUp(false);
   }
   function handleLogin() {
-    setOpen(true);
+    setOpenLogin(true);
   }
-
+  function handleRegister() {
+    setOpenSignUp(true);
+  }
   return (
     <div className={styles.container}>
-      {/* <LoginDialog
-        open={open}
-        title="Login Form"
+      <LoginDialog open={openLogin} onClose={onClose} />
+      <RegisterDialog
+        open={openSingUp}
+        title="Sign up Form"
         onClose={onClose}
-        pl="tykeaboyloy@gmail.com"
-      /> */}
-      <RegisterDialog open={open} title="Sign up Form" onClose={onClose} />
-      <Button onClick={handleLogin}>Login</Button>
+      />
+      <ModButton onClick={handleLogin} buttonTitle="Sign Up" />
+      <ModButton onClick={handleRegister} buttonTitle="Login" />
     </div>
   );
 }
