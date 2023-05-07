@@ -13,9 +13,17 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CircularProgress } from "@mui/material";
+import { RecoilStates } from "../../state/state";
+import { useRecoilState } from "recoil";
 export default function SignUp() {
-  const [created, setCreated] = React.useState(true);
   const [loading, setLoading] = React.useState(false);
+  const [created, setCreated] = React.useState(true);
+  //recoil states
+  const { signupState, loginState, loggedInState } = RecoilStates;
+  const [loggedIn, setLoggedIn] = useRecoilState(loggedInState);
+  const [openLogin, setOpenLogin] = useRecoilState(loginState);
+  const [signup, setSignup] = useRecoilState(signupState);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
@@ -28,7 +36,8 @@ export default function SignUp() {
       setCreated(true);
       const res = await req.json();
       localStorage.setItem("user", JSON.stringify(res.user));
-      console.log(res);
+      setLoggedIn(true);
+      setSignup(false);
     } else {
       setCreated(false);
       return;
@@ -137,9 +146,15 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Button
+                  sx={{ fontSize: "0.7rem" }}
+                  onClick={() => {
+                    setSignup(false);
+                    setOpenLogin(true);
+                  }}
+                >
                   Already have an account? Sign in
-                </Link>
+                </Button>
               </Grid>
             </Grid>
           </Box>
