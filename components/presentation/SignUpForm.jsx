@@ -12,17 +12,28 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
+import { CircularProgress } from "@mui/material";
 export default function SignUp() {
+  const [created, setCreated] = React.useState(true);
+  const [loading, setLoading] = React.useState(false);
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
     const data = new FormData(event.target);
     const req = await fetch("http://localhost:8000/api/register", {
       method: "POST",
       body: data,
     }).catch((e) => console.log(e));
-    const res = await req.json();
-    console.log(res);
+    if (req.status == 201) {
+      setCreated(true);
+      const res = await req.json();
+      localStorage.setItem("user", JSON.stringify(res.user));
+      console.log(res);
+    } else {
+      setCreated(false);
+      return;
+    }
+    setLoading(false);
   };
   return (
     <ThemeProvider theme={theme}>
@@ -102,6 +113,9 @@ export default function SignUp() {
                   autoComplete="new-password"
                 />
               </Grid>
+              {created == false && (
+                <Typography color="error">Error creating account</Typography>
+              )}
               <Grid item xs={12}>
                 <FormControlLabel
                   control={
@@ -116,8 +130,10 @@ export default function SignUp() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={loading}
+              loading={loading}
             >
-              Sign Up
+              Sign Up {loading && <CircularProgress size={20} />}
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
