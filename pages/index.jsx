@@ -3,30 +3,32 @@ import styles from "../styles/Home.module.css";
 import LoginDialog from "../components/parent/LoginDialog";
 import RegisterDialog from "../components/parent/RegisterDialog";
 import ModButton from "../components/presentation/ModButton";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { RecoilStates } from "../state/state";
 export default function Home() {
-  const [openLogin, setOpenLogin] = React.useState(false);
-  const [openSingUp, setOpenSignUp] = React.useState(false);
-
+  const { signupState, loginState, loggedInState } = RecoilStates;
+  const [openLogin, setOpenLogin] = useRecoilState(loginState);
+  const signup = useRecoilValue(signupState);
+  const [loggedIn, setLoggedIn] = useRecoilState(loggedInState);
   function onClose() {
     setOpenLogin(false);
-    setOpenSignUp(false);
   }
   function handleLogin() {
     setOpenLogin(true);
   }
-  function handleRegister() {
-    setOpenSignUp(true);
+  function handleLogout() {
+    localStorage.removeItem("user");
+    setLoggedIn(false);
   }
   return (
     <div className={styles.container}>
       <LoginDialog open={openLogin} onClose={onClose} />
-      <RegisterDialog
-        open={openSingUp}
-        title="Sign up Form"
-        onClose={onClose}
-      />
-      <ModButton onClick={handleLogin} buttonTitle="Login" />
-      <ModButton onClick={handleRegister} buttonTitle="Sign Up" />
+      <RegisterDialog open={signup} title="Sign up Form" onClose={onClose} />
+      {!loggedIn ? (
+        <ModButton onClick={handleLogin} buttonTitle="Login" />
+      ) : (
+        <ModButton onClick={handleLogout} buttonTitle="Logout" />
+      )}
     </div>
   );
 }

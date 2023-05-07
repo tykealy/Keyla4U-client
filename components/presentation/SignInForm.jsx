@@ -12,8 +12,9 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { setCookie } from "../../utilities/cookie";
 import { CircularProgress } from "@mui/material";
+import { useRecoilState } from "recoil";
+import { RecoilStates } from "../../state/state";
 function Copyright(props) {
   return (
     <Typography
@@ -35,8 +36,14 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignInForm() {
-  const [loginError, setLoginError] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
+  const [loginError, setLoginError] = React.useState(false);
+  //recoil states
+  const { signupState, loginState, loggedInState } = RecoilStates;
+  const [loggedIn, setLoggedIn] = useRecoilState(loggedInState);
+  const [openLogin, setOpenLogin] = useRecoilState(loginState);
+  const [signup, setSignup] = useRecoilState(signupState);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
@@ -49,9 +56,14 @@ export default function SignInForm() {
     });
     req.status == 401 ? setLoginError(true) : setLoginError(false);
     const res = await req.json();
-    req.status == 200
-      ? localStorage.setItem("user", JSON.stringify(res))
-      : localStorage.setItem("user", null);
+    if (req.status == 200) {
+      localStorage.setItem("user", JSON.stringify(res));
+      setLoggedIn(true);
+      setOpenLogin(false);
+    } else {
+      localStorage.setItem("user", null);
+      setLoggedIn(false);
+    }
     setLoading(false);
   };
 
@@ -124,9 +136,15 @@ export default function SignInForm() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Button
+                  sx={{ fontSize: "0.7rem" }}
+                  onClick={() => {
+                    setOpenLogin(false);
+                    setSignup(true);
+                  }}
+                >
                   {"Don't have an account? Sign Up"}
-                </Link>
+                </Button>
               </Grid>
             </Grid>
           </Box>
