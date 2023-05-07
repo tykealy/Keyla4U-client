@@ -25,8 +25,8 @@ export default function Home() {
         title="Sign up Form"
         onClose={onClose}
       />
-      <ModButton onClick={handleLogin} buttonTitle="Sign Up" />
-      <ModButton onClick={handleRegister} buttonTitle="Login" />
+      <ModButton onClick={handleLogin} buttonTitle="Login" />
+      <ModButton onClick={handleRegister} buttonTitle="Sign Up" />
     </div>
   );
 }
