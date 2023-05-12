@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 html,
 body {
   padding: 0;
@@ -20,7 +21,8 @@ a {
     color-scheme: dark;
   }
   body {
-    color: white;
-    background: black;
+    color: #75CA24;
+    background: white;
+    font-family: 'Poppins', sans-serif;
   }
 }

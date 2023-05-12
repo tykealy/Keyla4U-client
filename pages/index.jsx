@@ -5,6 +5,7 @@ import RegisterDialog from "../components/parent/RegisterDialog";
 import ModButton from "../components/presentation/ModButton";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { RecoilStates } from "../state/state";
+import MainNavigation from "../components/parent/MainNavigation";
 export default function Home() {
   const { signupState, loginState, loggedInState } = RecoilStates;
   const [openLogin, setOpenLogin] = useRecoilState(loginState);
@@ -22,6 +23,7 @@ export default function Home() {
   }
   return (
     <div className={styles.container}>
+      <MainNavigation />
       <LoginDialog open={openLogin} onClose={onClose} />
       <RegisterDialog open={signup} title="Sign up Form" onClose={onClose} />
       {!loggedIn ? (
