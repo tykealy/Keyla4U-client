@@ -5,6 +5,8 @@ import RegisterDialog from "../components/parent/RegisterDialog";
 import ModButton from "../components/presentation/ModButton";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { RecoilStates } from "../state/state";
+import AboutUs from "../components/presentation/AboutUs";
+import ContactUsForm from "../components/presentation/ContactUsForm";
 export default function Home() {
   const { signupState, loginState, loggedInState } = RecoilStates;
   const [openLogin, setOpenLogin] = useRecoilState(loginState);
@@ -29,6 +31,8 @@ export default function Home() {
       ) : (
         <ModButton onClick={handleLogout} buttonTitle="Logout" />
       )}
+      {/* <ContactUsForm/> */}
+      <AboutUs/>
     </div>
   );
 }
