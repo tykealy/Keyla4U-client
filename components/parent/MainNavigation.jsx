@@ -26,9 +26,9 @@ export default function MainNavigtion() {
           }}
         >
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Image src="/Logo.png" width="100" height="100" />
             {isMatch ? (
               <>
+              <Image src="/Logo.png" width="70" height="70" />
               </>
             ) : (
               <Tabs
@@ -39,6 +39,7 @@ export default function MainNavigtion() {
                 textColor="#75CA24"
                 fontFamily="sans-serif"
               >
+                <Image src="/Logo.png" width="100" height="100" />
                 {
                   PAGES.map((page,index) => (
                     <Tab key={index} label={page} />
@@ -49,9 +50,10 @@ export default function MainNavigtion() {
           </Box >
          {
           isMatch  ? (
-            <>
+            <Box sx={{display: "flex", justifyContent:"space-evenly"}}>
+            <Authentication />
             <DrawerComp />
-            </>
+            </Box>
           ) : (
             <Box sx={{display: "flex", justifyContent:"space-evenly"}}>
             <SearchBar />

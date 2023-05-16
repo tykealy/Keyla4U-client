@@ -36,10 +36,10 @@ export default function SearchBar(){
           paddingLeft: `calc(1em + ${theme.spacing(4)})`,
           transition: theme.transitions.create('width'),
           width: '100%',
-          [theme.breakpoints.up('sm')]: {
-            width: '12ch',
+          [theme.breakpoints.down('md')]: {
+            width: '0ch',
             '&:focus': {
-              width: '20ch',
+              width: '10ch',
             },
           },
         },
