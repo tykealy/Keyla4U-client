@@ -19,6 +19,7 @@ export default function SignUp() {
   const [loading, setLoading] = React.useState(false);
   const [created, setCreated] = React.useState(true);
   //recoil states
+  
   const { signupState, loginState, loggedInState } = RecoilStates;
   const [loggedIn, setLoggedIn] = useRecoilState(loggedInState);
   const [openLogin, setOpenLogin] = useRecoilState(loginState);
@@ -38,11 +39,11 @@ export default function SignUp() {
       localStorage.setItem("user", JSON.stringify(res.user));
       setLoggedIn(true);
       setSignup(false);
+      setLoading(false);
     } else {
       setCreated(false);
-      return;
+      setLoading(false);
     }
-    setLoading(false);
   };
   return (
     <ThemeProvider theme={theme}>
@@ -104,6 +105,17 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
+                  id="phone"
+                  label="Phone Number"
+                  name="phone"
+                  autoComplete="phone"
+                  type="tel"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
                   name="password"
                   label="Password"
                   type="password"
@@ -140,7 +152,6 @@ export default function SignUp() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
               disabled={loading}
-              loading={loading}
             >
               Sign Up {loading && <CircularProgress size={20} />}
             </Button>

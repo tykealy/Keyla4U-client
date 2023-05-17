@@ -1,17 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "../styles/Home.module.css";
-import LoginDialog from "../components/parent/LoginDialog";
-import RegisterDialog from "../components/parent/RegisterDialog";
-import ModButton from "../components/presentation/ModButton";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { RecoilStates } from "../state/state";
+
+import MainNavigation from "../components/parent/MainNavigation";
 export default function Home() {
   const { signupState, loginState, loggedInState } = RecoilStates;
   const [openLogin, setOpenLogin] = useRecoilState(loginState);
-  const signup = useRecoilValue(signupState);
+  const [signup, setSignup] = useRecoilState(signupState);
   const [loggedIn, setLoggedIn] = useRecoilState(loggedInState);
+
+  //check if the user is logged in
+  useEffect(() => {
+    JSON.parse(localStorage.getItem("user")) == null
+      ? setLoggedIn(false)
+      : setLoggedIn(true);
+  }, []);
+
   function onClose() {
     setOpenLogin(false);
+    setSignup(false);
   }
   function handleLogin() {
     setOpenLogin(true);
@@ -22,13 +28,7 @@ export default function Home() {
   }
   return (
     <div className={styles.container}>
-      <LoginDialog open={openLogin} onClose={onClose} />
-      <RegisterDialog open={signup} title="Sign up Form" onClose={onClose} />
-      {!loggedIn ? (
-        <ModButton onClick={handleLogin} buttonTitle="Login" />
-      ) : (
-        <ModButton onClick={handleLogout} buttonTitle="Logout" />
-      )}
+      <MainNavigation />
     </div>
   );
 }
