@@ -8,8 +8,14 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import StarBorder from "@mui/icons-material/StarBorder";
 import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
+import { RecoilStates } from "../../state/state";
+import { useRecoilState } from "recoil";
 import PropTypes from "prop-types";
 const SportType = (props) => {
+  const { selectedSportTypeState } = RecoilStates;
+  const [selectedSportType, setSelectedSportType] = useRecoilState(
+    selectedSportTypeState
+  );
   const [open, setOpen] = React.useState(true);
   const { SportTypes } = props;
   const handleClick = () => {
@@ -21,14 +27,37 @@ const SportType = (props) => {
         <ListItemIcon>
           <SportsSoccerIcon />
         </ListItemIcon>
-        <ListItemText primary="Sport Types" />
-        {open ? <ExpandLess /> : <ExpandMore />}
+        <ListItemText sx={{ color: "green" }} primary="Sport Types" />
+        {open ? (
+          <ExpandLess sx={{ color: "green" }} />
+        ) : (
+          <ExpandMore sx={{ color: "green" }} />
+        )}
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          {SportTypes.map((SportType) => {
+          <ListItemButton
+            selected={selectedSportType == ""}
+            onClick={() => {
+              setSelectedSportType("");
+            }}
+            sx={{ pl: 4 }}
+          >
+            <ListItemIcon>
+              <StarBorder />
+            </ListItemIcon>
+            <ListItemText primary={"All"} />
+          </ListItemButton>
+          {SportTypes.map((SportType, index) => {
             return (
-              <ListItemButton sx={{ pl: 4 }} key={SportType.id}>
+              <ListItemButton
+                selected={selectedSportType == SportType.category_name}
+                onClick={() => {
+                  setSelectedSportType(SportType.category_name);
+                }}
+                sx={{ pl: 4 }}
+                key={index}
+              >
                 <ListItemIcon>
                   <StarBorder />
                 </ListItemIcon>

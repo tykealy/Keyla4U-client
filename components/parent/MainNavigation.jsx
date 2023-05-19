@@ -18,7 +18,7 @@ export default function MainNavigation() {
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
 
-  const { signupState, loginState, loggedInState } = RecoilStates;
+  const { loggedInState } = RecoilStates;
   const [value, setValue] = useState(1);
   const [loggedIn, setLoggedIn] = useRecoilState(loggedInState);
 
@@ -68,7 +68,7 @@ export default function MainNavigation() {
         </Box>
         {isMatch ? (
           <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
-            <Authentication />
+            <Authentication loggedIn={loggedIn} />
             <DrawerComp />
           </Box>
         ) : (

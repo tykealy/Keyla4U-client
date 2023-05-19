@@ -1,8 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styles from "../styles/Home.module.css";
-import LoginDialog from "../components/parent/LoginDialog";
-import RegisterDialog from "../components/parent/RegisterDialog";
-import ModButton from "../components/presentation/ModButton";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { RecoilStates } from "../state/state";
 export default function Home() {
@@ -22,15 +19,5 @@ export default function Home() {
     localStorage.removeItem("user");
     setLoggedIn(false);
   }
-  return (
-    <div className={styles.container}>
-      <LoginDialog open={openLogin} onClose={onClose} />
-      <RegisterDialog open={signup} title="Sign up Form" onClose={onClose} />
-      {/* {!loggedIn ? (
-        <ModButton onClick={handleLogin} buttonTitle="Login" />
-      ) : (
-        <ModButton onClick={handleLogout} buttonTitle="Logout" />
-      )} */}
-    </div>
-  );
+  return <div className={styles.container}></div>;
 }

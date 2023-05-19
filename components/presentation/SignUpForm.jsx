@@ -18,8 +18,8 @@ import { useRecoilState } from "recoil";
 export default function SignUp() {
   const [loading, setLoading] = React.useState(false);
   const [created, setCreated] = React.useState(true);
+  
   //recoil states
-
   const { signupState, loginState, loggedInState } = RecoilStates;
   const [loggedIn, setLoggedIn] = useRecoilState(loggedInState);
   const [openLogin, setOpenLogin] = useRecoilState(loginState);
@@ -29,6 +29,7 @@ export default function SignUp() {
     event.preventDefault();
     setLoading(true);
     const data = new FormData(event.target);
+
     const req = await fetch("http://localhost:8000/api/register", {
       method: "POST",
       body: data,

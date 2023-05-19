@@ -9,8 +9,14 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import StarBorder from "@mui/icons-material/StarBorder";
 import { LocationOn } from "@mui/icons-material";
 import { Box } from "@mui/material";
+import { RecoilStates } from "../../state/state";
 import PropTypes from "prop-types";
+import { useRecoilState } from "recoil";
 const ProvinceList = (props) => {
+  const { selectedLocationState } = RecoilStates;
+  const [selectedLocation, setSelectedLocation] = useRecoilState(
+    selectedLocationState
+  );
   const [open, setOpen] = React.useState(true);
   const { locations } = props;
   const handleClick = () => {
@@ -40,9 +46,28 @@ const ProvinceList = (props) => {
       >
         <Collapse in={open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            {locations.map((location) => {
+            <ListItemButton
+              selected={selectedLocation == ""}
+              sx={{ pl: 4 }}
+              onClick={() => {
+                setSelectedLocation("");
+              }}
+            >
+              <ListItemIcon>
+                <StarBorder />
+              </ListItemIcon>
+              <ListItemText primary={"All"} />
+            </ListItemButton>
+            {locations.map((location, index) => {
               return (
-                <ListItemButton sx={{ pl: 4 }} key={location.id}>
+                <ListItemButton
+                  selected={selectedLocation == location.location}
+                  key={index}
+                  sx={{ pl: 4 }}
+                  onClick={() => {
+                    setSelectedLocation(location.location);
+                  }}
+                >
                   <ListItemIcon>
                     <StarBorder />
                   </ListItemIcon>
@@ -50,12 +75,6 @@ const ProvinceList = (props) => {
                 </ListItemButton>
               );
             })}
-            {/* <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <StarBorder />
-              </ListItemIcon>
-              <ListItemText primary="Starred" />
-            </ListItemButton> */}
           </List>
         </Collapse>
       </Box>
