@@ -8,9 +8,10 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import StarBorder from "@mui/icons-material/StarBorder";
 import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
+import PropTypes from "prop-types";
 const SportType = (props) => {
   const [open, setOpen] = React.useState(true);
-
+  const { SportTypes } = props;
   const handleClick = () => {
     setOpen(!open);
   };
@@ -25,12 +26,16 @@ const SportType = (props) => {
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Starred" />
-          </ListItemButton>
+          {SportTypes.map((SportType) => {
+            return (
+              <ListItemButton sx={{ pl: 4 }} key={SportType.id}>
+                <ListItemIcon>
+                  <StarBorder />
+                </ListItemIcon>
+                <ListItemText primary={SportType.category_name} />
+              </ListItemButton>
+            );
+          })}
         </List>
       </Collapse>
     </div>
@@ -38,3 +43,7 @@ const SportType = (props) => {
 };
 
 export default SportType;
+
+SportType.propTypes = {
+  SportType: PropTypes.array,
+};

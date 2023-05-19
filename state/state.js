@@ -19,7 +19,6 @@ const loggedInState = atom({
   // },
   default: false,
 });
-
 export const RecoilStates = {
   signupState,
   loginState,

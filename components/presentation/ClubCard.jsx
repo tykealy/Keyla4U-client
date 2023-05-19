@@ -2,7 +2,7 @@ import { Card, CardMedia, CardContent, Grid, Typography } from "@mui/material";
 import PlaceIcon from "@mui/icons-material/Place";
 import PropTypes from "prop-types";
 const ClubCard = (props) => {
-  const { minWidth, maxWidth, image, name, location, map } = props;
+  const { minWidth, maxWidth, image, name, location, map, key } = props;
   return (
     <div style={{ minWidth: minWidth, maxWidth: maxWidth }}>
       <Card
@@ -88,4 +88,5 @@ ClubCard.propTypes = {
   name: PropTypes.string.isRequired,
   location: PropTypes.string.isRequired,
   map: PropTypes.string,
+  key: PropTypes.number,
 };

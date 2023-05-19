@@ -19,7 +19,7 @@ export default function SignUp() {
   const [loading, setLoading] = React.useState(false);
   const [created, setCreated] = React.useState(true);
   //recoil states
-  
+
   const { signupState, loginState, loggedInState } = RecoilStates;
   const [loggedIn, setLoggedIn] = useRecoilState(loggedInState);
   const [openLogin, setOpenLogin] = useRecoilState(loginState);
@@ -75,7 +75,7 @@ export default function SignUp() {
                   autoComplete="given-name"
                   name="first_name"
                   required
-                  fullWidth
+                  sx={{ width: "100%" }}
                   id="firstName"
                   label="First Name"
                   autoFocus
@@ -84,7 +84,7 @@ export default function SignUp() {
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
-                  fullWidth
+                  sx={{ width: "100%" }}
                   id="lastName"
                   label="Last Name"
                   name="last_name"
@@ -94,7 +94,7 @@ export default function SignUp() {
               <Grid item xs={12}>
                 <TextField
                   required
-                  fullWidth
+                  sx={{ width: "100%" }}
                   id="email"
                   label="Email Address"
                   name="email"
@@ -104,7 +104,7 @@ export default function SignUp() {
               <Grid item xs={12}>
                 <TextField
                   required
-                  fullWidth
+                  sx={{ width: "100%" }}
                   id="phone"
                   label="Phone Number"
                   name="phone"
@@ -115,7 +115,7 @@ export default function SignUp() {
               <Grid item xs={12}>
                 <TextField
                   required
-                  fullWidth
+                  sx={{ width: "100%" }}
                   name="password"
                   label="Password"
                   type="password"
@@ -126,7 +126,7 @@ export default function SignUp() {
               <Grid item xs={12}>
                 <TextField
                   required
-                  fullWidth
+                  sx={{ width: "100%" }}
                   name="password_confirmation"
                   label="Confirm Password"
                   type="password"
@@ -148,9 +148,8 @@ export default function SignUp() {
             </Grid>
             <Button
               type="submit"
-              fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, width: "100%" }}
               disabled={loading}
             >
               Sign Up {loading && <CircularProgress size={20} />}

@@ -94,8 +94,8 @@ export default function SignInForm() {
             <TextField
               margin="normal"
               required
-              fullWidth
-              id="email"
+              sx={{ width: "100%" }}
+              id="user_email"
               label="Email Address"
               name="email"
               autoComplete="email"
@@ -104,11 +104,11 @@ export default function SignInForm() {
             <TextField
               margin="normal"
               required
-              fullWidth
+              sx={{ width: "100%" }}
               name="password"
               label="Password"
               type="password"
-              id="password"
+              id="user_password"
               autoComplete="current-password"
             />
             {loginError && (
@@ -122,9 +122,8 @@ export default function SignInForm() {
             />
             <Button
               type="submit"
-              fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, width: "100%" }}
               disabled={loading}
             >
               Sign In {loading && <CircularProgress size={20} />}
