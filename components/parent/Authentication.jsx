@@ -4,11 +4,12 @@ import ModButton from "../presentation/ModButton";
 import { Fragment } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { RecoilStates } from "../../state/state";
-export default function Authentication() {
+export default function Authentication(props) {
+  const { loggedIn } = props;
   const { signupState, loginState, loggedInState } = RecoilStates;
   const [openLogin, setOpenLogin] = useRecoilState(loginState);
   const signup = useRecoilValue(signupState);
-  const [loggedIn, setLoggedIn] = useRecoilState(loggedInState);
+  const [logedIn, setLoggedIn] = useRecoilState(loggedInState);
   function onClose() {
     setOpenLogin(false);
   }

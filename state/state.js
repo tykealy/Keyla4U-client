@@ -1,4 +1,4 @@
-import { atom } from "recoil";
+import { atom, selector } from "recoil";
 
 const signupState = atom({
   key: "signupState",
@@ -19,7 +19,6 @@ const loggedInState = atom({
   // },
   default: false,
 });
-
 export const RecoilStates = {
   signupState,
   loginState,
