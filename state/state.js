@@ -10,17 +10,20 @@ const loginState = atom({
 });
 const loggedInState = atom({
   key: "loggedInState",
-  // default: () => {
-  //   if (JSON.parse(localStorage.getItem("user")) == null) {
-  //     return false;
-  //   } else {
-  //     return true;
-  //   }
-  // },
   default: false,
+});
+const selectedLocationState = atom({
+  key: "selectedLocation",
+  default: "",
+});
+const selectedSportTypeState = atom({
+  key: "selectedSportType",
+  default: "",
 });
 export const RecoilStates = {
   signupState,
   loginState,
   loggedInState,
+  selectedLocationState,
+  selectedSportTypeState,
 };

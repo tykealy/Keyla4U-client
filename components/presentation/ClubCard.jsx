@@ -1,8 +1,10 @@
 import { Card, CardMedia, CardContent, Grid, Typography } from "@mui/material";
 import PlaceIcon from "@mui/icons-material/Place";
 import PropTypes from "prop-types";
+import { useRouter } from "next/router";
 const ClubCard = (props) => {
-  const { minWidth, maxWidth, image, name, location, map, key } = props;
+  const router = useRouter();
+  const { minWidth, maxWidth, image, name, location, map, id } = props;
   return (
     <div style={{ minWidth: minWidth, maxWidth: maxWidth }}>
       <Card
@@ -16,7 +18,7 @@ const ClubCard = (props) => {
       >
         <div
           onClick={(e) => {
-            handleClick(e);
+            router.push(`/clubs/${name}`);
           }}
         >
           <CardMedia
@@ -88,5 +90,4 @@ ClubCard.propTypes = {
   name: PropTypes.string.isRequired,
   location: PropTypes.string.isRequired,
   map: PropTypes.string,
-  key: PropTypes.number,
 };

@@ -8,7 +8,7 @@ import MainNavigation from "../components/parent/MainNavigation";
 function MyApp({ Component, pageProps }) {
   return (
     <RecoilRoot>
-      {/* <MainNavigation /> */}
+      <MainNavigation />
       <Component {...pageProps} />
     </RecoilRoot>
   );
