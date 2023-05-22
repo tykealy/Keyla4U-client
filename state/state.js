@@ -20,10 +20,15 @@ const selectedSportTypeState = atom({
   key: "selectedSportType",
   default: "",
 });
+const selectedClubState = atom({
+  key: "selectedClub",
+  default: null,
+});
 export const RecoilStates = {
   signupState,
   loginState,
   loggedInState,
   selectedLocationState,
   selectedSportTypeState,
+  selectedClubState,
 };

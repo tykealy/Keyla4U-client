@@ -2,8 +2,12 @@ import { Card, CardMedia, CardContent, Grid, Typography } from "@mui/material";
 import PlaceIcon from "@mui/icons-material/Place";
 import PropTypes from "prop-types";
 import { useRouter } from "next/router";
+import { RecoilStates } from "../../state/state";
+import { useRecoilState } from "recoil";
 const ClubCard = (props) => {
   const router = useRouter();
+  const { selectedClubState } = RecoilStates;
+  const [selectedClub, setSelectedClub] = useRecoilState(selectedClubState);
   const { minWidth, maxWidth, image, name, location, map, id } = props;
   return (
     <div style={{ minWidth: minWidth, maxWidth: maxWidth }}>
@@ -19,6 +23,7 @@ const ClubCard = (props) => {
         <div
           onClick={(e) => {
             router.push(`/clubs/${name}`);
+            setSelectedClub(id);
           }}
         >
           <CardMedia
