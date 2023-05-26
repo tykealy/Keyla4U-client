@@ -16,7 +16,7 @@ const SportType = (props) => {
   const [selectedSportType, setSelectedSportType] = useRecoilState(
     selectedSportTypeState
   );
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const { SportTypes } = props;
   const handleClick = () => {
     setOpen(!open);
@@ -27,11 +27,11 @@ const SportType = (props) => {
         <ListItemIcon>
           <SportsSoccerIcon />
         </ListItemIcon>
-        <ListItemText sx={{ color: "green" }} primary="Sport Types" />
+        <ListItemText sx={{ color: "teal" }} primary="Sport Types" />
         {open ? (
-          <ExpandLess sx={{ color: "green" }} />
+          <ExpandLess sx={{ color: "teal" }} />
         ) : (
-          <ExpandMore sx={{ color: "green" }} />
+          <ExpandMore sx={{ color: "teal" }} />
         )}
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>

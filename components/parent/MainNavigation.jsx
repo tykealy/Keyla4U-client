@@ -1,4 +1,12 @@
-import { AppBar, Toolbar, Tabs, Tab, Box } from "@mui/material";
+import {
+  AppBar,
+  Toolbar,
+  Tabs,
+  Tab,
+  Box,
+  createTheme,
+  ThemeProvider,
+} from "@mui/material";
 import Image from "next/image";
 import { Fragment } from "react";
 import DrawerComp from "../presentation/DrawerComp";
@@ -18,8 +26,8 @@ export default function MainNavigation() {
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
 
-  const { loggedInState } = RecoilStates;
-  const [value, setValue] = useState(1);
+  const { loggedInState, selectedPageState } = RecoilStates;
+  const [value, setValue] = useRecoilState(selectedPageState);
   const [loggedIn, setLoggedIn] = useRecoilState(loggedInState);
 
   //check if the user is logged in
@@ -28,56 +36,78 @@ export default function MainNavigation() {
       ? setLoggedIn(false)
       : setLoggedIn(true);
   }, []);
+
+  const theme1 = createTheme({
+    components: {
+      MuiTab: {
+        styleOverrides: {
+          root: {
+            "&.Mui-selected": {
+              color: "teal",
+            },
+          },
+        },
+      },
+    },
+  });
   return (
-    <AppBar position="sticky" sx={{ marginBottom: 2 }}>
-      <Toolbar
-        sx={{
-          backgroundColor: "#ffffff",
-          fontFamily: "sans-serif",
-          justifyContent: "space-between",
-        }}
-      >
-        <Box sx={{ display: "flex", alignItems: "center" }}>
+    <ThemeProvider theme={theme1}>
+      <AppBar position="sticky" sx={{ marginBottom: 2 }}>
+        <Toolbar
+          sx={{
+            backgroundColor: "#ffffff",
+            fontFamily: "sans-serif",
+            justifyContent: "space-between",
+          }}
+        >
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            {isMatch ? (
+              <>
+                <Image alt="Logo" src={Logo} width="70" height="70" />
+              </>
+            ) : (
+              <Tabs
+                sx={{ marginRight: "2.5rem", color: "teal" }}
+                value={value}
+                onChange={(e, value) => setValue(value)}
+                TabIndicatorProps={{ style: { background: "teal" } }}
+                fontFamily="sans-serif"
+              >
+                <Image alt="logo" src={Logo} width="100" height="100" />
+                {PAGES.map((page, index) => (
+                  <Tab
+                    sx={{
+                      "&:hover": {
+                        color: "#99CCCC",
+                        opacity: 1,
+                      },
+                    }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      page == "Home"
+                        ? router.push("/")
+                        : router.push(`/${page.toLowerCase()}`);
+                    }}
+                    key={index}
+                    label={page}
+                  />
+                ))}
+              </Tabs>
+            )}
+          </Box>
           {isMatch ? (
-            <>
-              <Image alt="Logo" src={Logo} width="70" height="70" />
-            </>
+            <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
+              <Authentication loggedIn={loggedIn} />
+              <DrawerComp />
+            </Box>
           ) : (
-            <Tabs
-              sx={{ marginRight: "2.5rem", color: "#75CA24" }}
-              value={value}
-              onChange={(e, value) => setValue(value)}
-              TabIndicatorProps={{ style: { background: "green" } }}
-              fontFamily="sans-serif"
-            >
-              <Image alt="logo" src={Logo} width="100" height="100" />
-              {PAGES.map((page, index) => (
-                <Tab
-                  onClick={() => {
-                    page == "Home"
-                      ? router.push("/")
-                      : router.push(`/${page.toLowerCase()}`);
-                  }}
-                  key={index}
-                  label={page}
-                  sx={{ color: "#75CA24" }}
-                />
-              ))}
-            </Tabs>
+            <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
+              <SearchBar />
+              <Authentication loggedIn={loggedIn} />
+            </Box>
           )}
-        </Box>
-        {isMatch ? (
-          <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
-            <Authentication loggedIn={loggedIn} />
-            <DrawerComp />
-          </Box>
-        ) : (
-          <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
-            <SearchBar />
-            <Authentication loggedIn={loggedIn} />
-          </Box>
-        )}
-      </Toolbar>
-    </AppBar>
+        </Toolbar>
+      </AppBar>
+    </ThemeProvider>
   );
 }

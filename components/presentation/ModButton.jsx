@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 export default function ModButton(props) {
   return (
     <div>
-      <Button sx={{ color: "#75CA24" }} onClick={props.onClick}>
+      <Button sx={{ color: "teal" }} onClick={props.onClick}>
         {props.buttonTitle}
       </Button>
     </div>
