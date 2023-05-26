@@ -3,6 +3,7 @@ import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import ListItem from "@mui/material/ListItem";
 import Collapse from "@mui/material/Collapse";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
@@ -17,7 +18,7 @@ const ProvinceList = (props) => {
   const [selectedLocation, setSelectedLocation] = useRecoilState(
     selectedLocationState
   );
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const { locations } = props;
   const handleClick = () => {
     setOpen(!open);
@@ -28,42 +29,45 @@ const ProvinceList = (props) => {
         <ListItemIcon>
           <LocationOn />
         </ListItemIcon>
-        <ListItemText sx={{ color: "green" }} primary="Locations" />
+        <ListItemText sx={{ color: "teal" }} primary="Locations" />
         {open ? (
-          <ExpandLess sx={{ color: "green" }} />
+          <ExpandLess sx={{ color: "teal" }} />
         ) : (
-          <ExpandMore sx={{ color: "green" }} />
+          <ExpandMore sx={{ color: "teal" }} />
         )}
       </ListItemButton>
       <Box
         sx={{
           width: "100%",
           maxHeight: 390,
-          maxWidth: 360,
           bgcolor: "background.paper",
           overflow: "auto",
         }}
       >
         <Collapse in={open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItemButton
-              selected={selectedLocation == ""}
-              sx={{ pl: 4 }}
-              onClick={() => {
-                setSelectedLocation("");
-              }}
-            >
-              <ListItemIcon>
-                <StarBorder />
-              </ListItemIcon>
-              <ListItemText primary={"All"} />
-            </ListItemButton>
+            <ListItem>
+              <ListItemButton
+                selected={selectedLocation == ""}
+                onClick={() => {
+                  setSelectedLocation("");
+                }}
+              >
+                <ListItemIcon>
+                  <StarBorder />
+                </ListItemIcon>
+                <ListItemText primary={"All"} />
+              </ListItemButton>
+            </ListItem>
             {locations.map((location, index) => {
               return (
                 <ListItemButton
                   selected={selectedLocation == location.location}
                   key={index}
-                  sx={{ pl: 4 }}
+                  sx={{
+                    pl: 4,
+                    backgroundColor: location.location == "" ? "red" : "",
+                  }}
                   onClick={() => {
                     setSelectedLocation(location.location);
                   }}

@@ -20,8 +20,16 @@ const selectedSportTypeState = atom({
   key: "selectedSportType",
   default: "",
 });
-const selectedClubState = atom({
-  key: "selectedClub",
+const selectedSportState = atom({
+  key: "selectedSportState",
+  default: null,
+});
+const selectedPageState = atom({
+  key: "selectedPage",
+  default: 1,
+});
+const clubChangedState = atom({
+  key: "clubChangedState",
   default: null,
 });
 export const RecoilStates = {
@@ -30,5 +38,7 @@ export const RecoilStates = {
   loggedInState,
   selectedLocationState,
   selectedSportTypeState,
-  selectedClubState,
+  selectedSportState,
+  selectedPageState,
+  clubChangedState,
 };

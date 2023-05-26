@@ -8,10 +8,12 @@ import {
   ListItemIcon,
   IconButton,
 } from "@mui/material";
+import { useRouter } from "next/router";
 import MenuIcon from "@mui/icons-material/Menu";
-const PAGES = ["Home", "Club", "About", "Favorites", "Booked"];
+const PAGES = ["Home", "Clubs", "About", "Favorites", "Booked"];
 export default function DrawerComp() {
   const [openDrawer, setOpenDrawer] = useState(false);
+  const router = useRouter();
   return (
     <Fragment>
       <Drawer
@@ -22,16 +24,24 @@ export default function DrawerComp() {
       >
         <List>
           {PAGES.map((page, index) => (
-            <ListItemButton key={index}>
+            <ListItemButton
+              key={index}
+              onClick={(e) => {
+                e.preventDefault();
+                page == "Home"
+                  ? router.push("/")
+                  : router.push(`/${page.toLowerCase()}`);
+              }}
+            >
               <ListItemIcon>
-                <ListItemText sx={{ color: "#75CA24" }}>{page}</ListItemText>
+                <ListItemText sx={{ color: "teal" }}>{page}</ListItemText>
               </ListItemIcon>
             </ListItemButton>
           ))}
         </List>
       </Drawer>
       <IconButton
-        sx={{ color: "#75CA24" }}
+        sx={{ color: "teal" }}
         onClick={() => setOpenDrawer(!openDrawer)}
       >
         <MenuIcon />

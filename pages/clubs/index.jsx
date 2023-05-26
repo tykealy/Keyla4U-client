@@ -10,33 +10,25 @@ const ClubsPage = (props) => {
   const selectedSportType = useRecoilValue(selectedSportTypeState);
   const selectedLocation = useRecoilValue(selectedLocationState);
   const [clubs, setClubs] = React.useState(props.clubs);
-
-  //fetch clubs
-  // const fetchClubs = async () => {
-  //   const res = await fetch(
-  //     `http://localhost:8000/api/clubs?location=${selectedLocation}`,
-  //     {
-  //       method: "GET",
-  //     }
-  //   ).catch((e) => console.log(e));
-  //   const clubs = await res.json();
-  //   setClubs(clubs);
-  // };
-
-  // React.useEffect(() => {
-  //   fetchClubs();
-  //   setClubs(filteredClubs);
-  // }, [selectedLocation]);
   return (
-    <div>
+    <div style={{ textAlign: "center" }}>
       <Grid container spacing={1}>
-        <Grid item xl={1} lg={2} md={3} sm={4} xs={5}>
+        <Grid item xl={1} lg={2} md={3} sm={4} xs={12}>
           <ClubFilterList
             locations={props.locations}
             SportTypes={props.SportTypes}
           />
         </Grid>
-        <Grid container item xl={11} lg={10} md={9} sm={8} xs={7} spacing={1}>
+        <Grid
+          container
+          item
+          xl={11}
+          lg={10}
+          md={9}
+          sm={8}
+          xs={12}
+          sx={{ textAlign: "center" }}
+        >
           {clubs
             .filter((item) => item.location.includes(selectedLocation))
             .filter((item) => {
@@ -53,8 +45,7 @@ const ClubsPage = (props) => {
                     id={item.id}
                     name={item.name}
                     location={item.location}
-                    minWidth="228px"
-                    maxWidth="300px"
+                    maxWidth="450px"
                     image={image + item.image}
                   />
                 </Grid>
