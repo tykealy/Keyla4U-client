@@ -1,3 +1,4 @@
+import { array } from "prop-types";
 import { atom, selector } from "recoil";
 
 const signupState = atom({
@@ -32,6 +33,17 @@ const clubChangedState = atom({
   key: "clubChangedState",
   default: null,
 });
+
+const selectedTimesState = atom({
+  key: "selectedTimes",
+  default: [],
+});
+
+const orderItemState = atom({
+  key: "orderItem",
+  default: {},
+});
+
 export const RecoilStates = {
   signupState,
   loginState,
@@ -41,4 +53,6 @@ export const RecoilStates = {
   selectedSportState,
   selectedPageState,
   clubChangedState,
+  selectedTimesState,
+  orderItemState,
 };

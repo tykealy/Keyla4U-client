@@ -6,20 +6,19 @@ import {
   createTheme,
   ThemeProvider,
   Typography,
-  ToggleButton,
-  ToggleButtonGroup,
   Grid,
+  Button,
 } from "@mui/material";
 import { RecoilStates } from "../../state/state";
 import { useRecoilState } from "recoil";
-import PropTypes from "prop-types";
-import axios from "axios";
+import PropTypes, { array } from "prop-types";
 import { useRouter } from "next/router";
 const PitchList = (props) => {
   const router = useRouter();
   const { id } = router.query;
   const { club, clubCategoriesID } = props;
-  const { selectedSportState } = RecoilStates;
+  const { selectedSportState, selectedTimesState, orderItemState } =
+    RecoilStates;
   const [selectedSportID, setSelectedSportID] =
     useRecoilState(selectedSportState);
   const [pitches, setPitches] = React.useState([]);
@@ -33,7 +32,9 @@ const PitchList = (props) => {
   const [day, setDay] = React.useState();
 
   const [availableTimes, setAvailableTimes] = React.useState([]);
-
+  const [selectedTimes, setSelectedTimes] = useRecoilState(selectedTimesState);
+  // const [selectedValues, setSelectedValues] = React.useState([]);
+  const [orderItem, setOrderItem] = useRecoilState(orderItemState);
   //click event
   const handlePitchClick = (e, pitchID) => {
     setSelectedPitch(pitchID);
@@ -52,7 +53,7 @@ const PitchList = (props) => {
   }, [selectedPitch]);
 
   React.useEffect(() => {
-    availableTimes.length > 0 && console.log(availableTimes);
+    // availableTimes.length > 0 && console.log(availableTimes);
   }, [availableTimes]);
 
   React.useEffect(() => {
@@ -66,6 +67,7 @@ const PitchList = (props) => {
     setSelectedPitch([]);
     setAvailableDays([]);
     setAvailableTimes([]);
+    setSelectedTimes([]);
     setValue();
     setValue2();
   }, [selectedSportID, mount]);
@@ -73,20 +75,22 @@ const PitchList = (props) => {
   // when selectedPitch and day is not null, call getAvailableTime() function
   React.useEffect(() => {
     if (day != null && selectedPitch != null) getAvailableTime();
+    setSelectedTimes([]);
   }, [day]);
 
   React.useEffect(() => {
-    console.log(availableDays);
+    // console.log(availableDays);
+    setSelectedTimes([]);
   }, [availableDays]);
 
   //function to get all the pitches related to selected sport
   const getPitches = async () => {
     try {
-      const req = await axios.get(
-        `http://localhost:8000/api/pitches/${selectedSportID}`
+      const req = await fetch(
+        `http://127.0.0.1:8000/api/pitches/${selectedSportID}`
       );
-      const pitches = req;
-      setPitches(pitches.data);
+      const pitches = await req.json();
+      setPitches(pitches);
     } catch (error) {
       console.log(error);
     }
@@ -95,11 +99,11 @@ const PitchList = (props) => {
   //function get all the availbable time related to the selected pitch and day
   const getAvailableTime = async () => {
     try {
-      const req = await axios.get(
-        `http://localhost:8000/api/availableTimes/${selectedPitch}/${day}`
+      const req = await fetch(
+        `http://127.0.0.1:8000/api/availableTimes/${selectedPitch}/${day}`
       );
-      const res = req;
-      setAvailableTimes(res.data);
+      const res = await req.json();
+      setAvailableTimes(res);
     } catch (error) {
       console.log(error);
     }
@@ -116,8 +120,44 @@ const PitchList = (props) => {
           },
         },
       },
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            "&.MuiButton-contained": {
+              backgroundColor: "teal",
+            },
+            "&.MuiButton-outlined": {
+              borderColor: "teal",
+              color: "teal",
+            },
+            "&.Mui-disabled": {
+              backgroundColor: "grey",
+              borderColor: "grey",
+              color: "white",
+            },
+          },
+        },
+      },
     },
   });
+
+  const handleItemClick = (time) => {
+    if (selectedTimes.includes(time)) {
+      setSelectedTimes(
+        selectedTimes.filter((selectedtime) => selectedtime !== time)
+      );
+    } else {
+      setSelectedTimes([...selectedTimes, time]);
+    }
+  };
+
+  React.useEffect(() => {
+    setOrderItem({
+      pitch_id: selectedPitch,
+      week_day: day,
+      id: selectedTimes,
+    });
+  }, [selectedTimes]);
   return (
     <ThemeProvider theme={theme}>
       <div
@@ -216,27 +256,35 @@ const PitchList = (props) => {
       )}
       {day != null && (
         <div style={{ textAlign: "center", margin: "30px 0 30px 0" }}>
-          <Typography fontSize="1.1rem">
-            Select the time you want to book.
-          </Typography>
+          <Typography fontSize="1.1rem">Select your desired time</Typography>
         </div>
       )}
       <div style={{ padding: "0 10px 10px 10px", textAlign: "center" }}>
-        <ToggleButtonGroup>
-          <Grid rowSpacing={2} container>
-            {availableTimes.map((option) => (
-              <Grid item lg={2} md={3} sm={4} xs={6}>
-                <ToggleButton
-                  sx={{ padding: 2 }}
-                  key={option.id}
-                  value={option.id}
-                >
-                  {option.start_time} - {option.end_time}
-                </ToggleButton>
-              </Grid>
-            ))}
-          </Grid>
-        </ToggleButtonGroup>
+        <Grid rowSpacing={2} container>
+          {availableTimes.map((option) => (
+            <Grid item lg={2} md={3} sm={4} xs={6}>
+              <Button
+                sx={{
+                  padding: 2,
+                  "&:hover": {
+                    color: "#99CCCC",
+                    borderColor: "#99CCCC",
+                  },
+                }}
+                key={option.id}
+                onClick={() => {
+                  handleItemClick(option);
+                }}
+                variant={
+                  selectedTimes.includes(option) ? "contained" : "outlined"
+                }
+                disabled={option.availability == 1 ? false : true}
+              >
+                {option.start_time} - {option.end_time}
+              </Button>
+            </Grid>
+          ))}
+        </Grid>
       </div>
     </ThemeProvider>
   );

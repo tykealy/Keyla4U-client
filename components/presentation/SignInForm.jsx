@@ -36,6 +36,8 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignInForm() {
+  const apiUrl = process.env.API_URL;
+
   const [loading, setLoading] = React.useState(false);
   const [loginError, setLoginError] = React.useState(false);
   //recoil states
@@ -48,7 +50,7 @@ export default function SignInForm() {
     event.preventDefault();
     setLoading(true);
     const data = new FormData(event.target);
-    const req = await fetch("http://localhost:8000/api/login", {
+    const req = await fetch(`http://127.0.0.1:8000/api/login`, {
       method: "POST",
       body: data,
     }).catch((e) => {
