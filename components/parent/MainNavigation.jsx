@@ -15,7 +15,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import Authentication from "./Authentication";
 import SearchBar from "../presentation/SearchBar";
-import Logo from "./../../public/Logo.jpg";
+import Logo from "./../../public/Logo.png";
 import { RecoilStates } from "../../state/state";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useEffect } from "react";

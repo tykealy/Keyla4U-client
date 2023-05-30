@@ -1,0 +1,42 @@
+.footer{
+    display: flex;
+    padding: 0,1rem;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+}
+
+.footercontent{
+   display: flex;
+   justify-content: space-evenly;
+   padding: 1.5rem;
+   width: 50%;
+}
+
+.socialmedia{
+    display: flex;
+    flex-direction: column;
+}
+
+.socialmedia ul{
+    list-style: none;
+}
+
+.socialmedia ul li{
+    margin-bottom: 0.3rem;
+    padding-bottom: 0.3rem;
+}
+
+.linking{
+    display: flex;
+    flex-direction: column;
+}
+
+.linking ul{
+    list-style: none;
+}
+
+.linking ul li{
+    margin-bottom: 0.3rem;
+    padding-bottom: 0.3rem;
+}
