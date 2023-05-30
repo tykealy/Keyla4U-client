@@ -16,9 +16,10 @@ import { CircularProgress } from "@mui/material";
 import { RecoilStates } from "../../state/state";
 import { useRecoilState } from "recoil";
 export default function SignUp() {
+  const apiUrl = process.env.API_URL;
   const [loading, setLoading] = React.useState(false);
   const [created, setCreated] = React.useState(true);
-  
+
   //recoil states
   const { signupState, loginState, loggedInState } = RecoilStates;
   const [loggedIn, setLoggedIn] = useRecoilState(loggedInState);
@@ -30,7 +31,7 @@ export default function SignUp() {
     setLoading(true);
     const data = new FormData(event.target);
 
-    const req = await fetch("http://localhost:8000/api/register", {
+    const req = await fetch(`http://127.0.0.1:8000/api/register`, {
       method: "POST",
       body: data,
     }).catch((e) => console.log(e));

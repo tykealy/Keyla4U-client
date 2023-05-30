@@ -5,6 +5,7 @@ import { Grid } from "@mui/material";
 import { RecoilStates } from "../../state/state";
 import { useRecoilValue } from "recoil";
 const ClubsPage = (props) => {
+  // const image = "http://184.72.96.38/Keyla4U-server/public/img";
   const image = "http://127.0.0.1:8000/img/";
   const { selectedLocationState, selectedSportTypeState } = RecoilStates;
   const selectedSportType = useRecoilValue(selectedSportTypeState);
@@ -59,13 +60,15 @@ const ClubsPage = (props) => {
 export default ClubsPage;
 
 export async function getServerSideProps() {
-  const clubs_req = await fetch("http://localhost:8000/api/clubs");
+  const apiUrl = process.env.API_URL;
+
+  const clubs_req = await fetch(`${apiUrl}/api/clubs`);
   const clubs = await clubs_req.json();
 
-  const locations_req = await fetch("http://localhost:8000/api/locations");
+  const locations_req = await fetch(`${apiUrl}/api/locations`);
   const locations = await locations_req.json();
 
-  const SportTypesReq = await fetch("http://localhost:8000/api/sports");
+  const SportTypesReq = await fetch(`${apiUrl}/api/sports`);
   const SportTypes = await SportTypesReq.json();
   return {
     props: {

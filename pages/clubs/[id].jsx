@@ -1,12 +1,142 @@
 import React from "react";
 import BookingTable from "../../components/parent/BookingTable";
 import { RecoilStates } from "../../state/state";
-const club = ({ club, pitcheCategories }) => {
-  // const { selectedPageState, selectedSportState } = RecoilStates;
+import { Button, Typography } from "@mui/material";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import { useRouter } from "next/router";
+import { createTheme, ThemeProvider } from "@mui/material";
+import { useRecoilValue } from "recoil";
+const club = ({ club, pitcheCategories, apiUrl }) => {
+  const buttonTheme = createTheme({
+    components: {
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            "&.MuiButton-outlined": {
+              backgroundColor: "teal",
+              color: "white",
+              borderColor: "teal",
+            },
+            "&.Mui-disabled": {
+              borderColor: "grey",
+              backgroundColor: "white",
+              color: "grey",
+            },
+          },
+        },
+      },
+    },
+  });
+
+  const book = async () => {
+    const data = orderItem;
+    const formData = new FormData();
+
+    formData.append("pitch_id", data.pitch_id);
+    formData.append("week_day", data.week_day);
+
+    for (let id of data.id) {
+      formData.append("id[]", id.id);
+    }
+
+    const req = await fetch(`${apiUrl}/api/availableTimes/book`, {
+      method: "POST",
+      body: formData,
+    }).catch((e) => {
+      console.log(e);
+    });
+    const res = req.json();
+    console.log(res);
+  };
+
+  const constructOrder = () => {
+    return {
+      email: JSON.parse(localStorage.getItem("user")).email,
+      pitch: orderItem.pitch_id,
+      play_date: orderItem.week_day,
+      start_time: orderItem.id[0].start_time,
+      end_time: orderItem.id[orderItem.id.length - 1].end_time,
+      payment_method: "QRcode",
+      order_status: "pending",
+    };
+  };
+
+  const order = async (event) => {
+    event.preventDefault();
+    const data = constructOrder();
+    const formData = new FormData();
+
+    formData.append("email", data.email);
+    formData.append("pitch", data.pitch);
+    formData.append("play_date", data.play_date);
+    formData.append("start_time", data.start_time);
+    formData.append("end_time", data.end_time);
+    formData.append("payment_method", data.payment_method);
+    formData.append("order_status", data.order_status);
+    try {
+      const req = await fetch("http://127.0.0.1:8000/api/order", {
+        method: "POST",
+        body: formData,
+      });
+      const res = await req.json();
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const {
+    selectedPageState,
+    selectedSportState,
+    selectedTimesState,
+    orderItemState,
+  } = RecoilStates;
+  const router = useRouter();
   const selectClub = club.id;
   const [selectedClub, setSelectedClub] = React.useState(selectClub);
+  const selectedTimes = useRecoilValue(selectedTimesState);
+  const orderItem = useRecoilValue(orderItemState);
   return (
     <div>
+      <div
+        style={{
+          margin: "20px",
+          padding: "10px",
+          border: "1px solid teal",
+          display: "inline-block",
+          borderRadius: "5px",
+          width: "60px",
+          textAlign: "center",
+        }}
+        onClick={(e) => {
+          e.preventDefault();
+          router.push("/clubs");
+        }}
+      >
+        <ArrowBackIosIcon
+          sx={{
+            verticalAlign: "sub",
+            color: "teal",
+          }}
+        />
+      </div>
+      <div style={{ display: "inline-block" }}>
+        <Typography sx={{ color: "#5A5A5A" }} variant="h5">
+          {club.name}
+        </Typography>
+      </div>
+      <ThemeProvider theme={buttonTheme}>
+        <div style={{ float: "right", margin: "20px" }}>
+          <Button
+            variant="outlined"
+            sx={{ float: "right" }}
+            disabled={selectedTimes.length == 0 ? true : false}
+            onClick={order}
+          >
+            Book Now
+          </Button>
+        </div>
+      </ThemeProvider>
       <BookingTable
         clubCategoryID={pitcheCategories}
         club={club}
@@ -20,8 +150,9 @@ export default club;
 
 export async function getServerSideProps(context) {
   const selectedClub = context.query.id;
+  const apiUrl = process.env.API_URL;
 
-  const req = await fetch(`http://localhost:8000/api/clubs/${selectedClub}`);
+  const req = await fetch(`${apiUrl}/api/clubs/${selectedClub}`);
   const res = await req.json();
   const pitchCategoryID = res.categories.map((category) => {
     return category.id;
@@ -30,6 +161,7 @@ export async function getServerSideProps(context) {
     props: {
       club: res,
       pitcheCategories: pitchCategoryID,
+      apiUrl: apiUrl,
     },
   };
 }
