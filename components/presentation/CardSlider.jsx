@@ -50,7 +50,7 @@ export default function CardSlider({ data }) {
       </Typography>
       <Carousel responsive={responsive} width="100%">
         {data.map((item, index) => (
-          <Box sx={{ marginRight: "0.5rem" }}>
+          <Box sx={{ marginRight: "0.5rem" }} key={index}>
             <Card
               key={index}
               sx={{

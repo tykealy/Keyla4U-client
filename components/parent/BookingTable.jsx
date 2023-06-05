@@ -2,11 +2,9 @@ import PitchList from "../presentation/PitchList";
 import TabSelecting from "../presentation/TabSelecting";
 import PropTypes from "prop-types";
 import { Grid } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
-import useMediaQuery from "@mui/material";
 import React from "react";
 const BookingTable = (props) => {
-  const { club, clubCategoryID, selectedClub } = props;
+  const { club, clubCategoryID, selectedClub, apiUrl } = props;
   return (
     <div>
       <Grid container>
@@ -18,6 +16,7 @@ const BookingTable = (props) => {
         </Grid>
         <Grid item xs={12} sm={10} md={10} lg={10} xl={9}>
           <PitchList
+            apiUrl={apiUrl}
             clubCategoriesID={clubCategoryID}
             club={club.categories}
             selectedClub={selectedClub}
@@ -33,4 +32,5 @@ BookingTable.propTypes = {
   club: PropTypes.object.isRequired,
   clubCategoryID: PropTypes.array.isRequired,
   selectedClub: PropTypes.number.isRequired,
+  apiUrl: PropTypes.string.isRequired,
 };

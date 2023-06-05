@@ -1,11 +1,12 @@
 import React from "react";
 import BookingTable from "../../components/parent/BookingTable";
 import { RecoilStates } from "../../state/state";
-import { Button, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { useRouter } from "next/router";
-import { createTheme, ThemeProvider } from "@mui/material";
+import { createTheme, ThemeProvider, Dialog } from "@mui/material";
 import { useRecoilValue } from "recoil";
+import PaidDialog from "../../components/presentation/paidDialog";
 const club = ({ club, pitcheCategories, apiUrl }) => {
   const buttonTheme = createTheme({
     components: {
@@ -46,7 +47,6 @@ const club = ({ club, pitcheCategories, apiUrl }) => {
       console.log(e);
     });
     const res = req.json();
-    console.log(res);
   };
 
   const constructOrder = () => {
@@ -61,8 +61,11 @@ const club = ({ club, pitcheCategories, apiUrl }) => {
     };
   };
 
+  const handlePaidClose = () => {
+    setPaid(false);
+  };
+
   const order = async (event) => {
-    event.preventDefault();
     const data = constructOrder();
     const formData = new FormData();
 
@@ -74,30 +77,138 @@ const club = ({ club, pitcheCategories, apiUrl }) => {
     formData.append("payment_method", data.payment_method);
     formData.append("order_status", data.order_status);
     try {
-      const req = await fetch("http://127.0.0.1:8000/api/order", {
+      const req = await fetch(`${apiUrl}/api/order`, {
         method: "POST",
         body: formData,
       });
       const res = await req.json();
-      console.log(res);
+      setOrderData(res);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const {
-    selectedPageState,
-    selectedSportState,
-    selectedTimesState,
-    orderItemState,
-  } = RecoilStates;
+  const [orderData, setOrderData] = React.useState({});
+  const { selectedTimesState, orderItemState } = RecoilStates;
   const router = useRouter();
   const selectClub = club.id;
   const [selectedClub, setSelectedClub] = React.useState(selectClub);
   const selectedTimes = useRecoilValue(selectedTimesState);
   const orderItem = useRecoilValue(orderItemState);
+  const [qrOpen, setQrOpen] = React.useState(false);
+  const [Qrcode, setQrcode] = React.useState("");
+  const [paid, setPaid] = React.useState("");
+  const closeqr = () => {
+    setQrOpen(false);
+    setOrderData({});
+    setQrcode(null);
+  };
+
+  React.useEffect(() => {
+    if (Object.keys(orderData).length != 0) {
+      const orderID = orderData.id;
+      setQrcode(
+        `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${apiUrl}/api/pay/${orderID}`
+      );
+      fetchPaid(orderID);
+    }
+  }, [orderData]);
+
+  const fetchPaid = async (orderID) => {
+    try {
+      const req = await fetch(`${apiUrl}/api/payment/${orderID}`);
+      const res = await req.json();
+      if (res == "Paid") {
+        book();
+        setQrOpen(false);
+        setPaid(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  React.useEffect(() => {
+    Qrcode !== "" ? setQrOpen(true) : "";
+  }, [Qrcode]);
+
   return (
     <div>
+      <PaidDialog open={paid} handlePaidClose={handlePaidClose} />
+      <Dialog
+        open={qrOpen}
+        onClose={closeqr}
+        PaperProps={{ sx: { borderRadius: "15px" } }}
+      >
+        <div
+          style={{
+            width: 340,
+            height: 470,
+            textAlign: "center",
+            display: "flex",
+            flexDirection: "column",
+            position: "relative",
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              width: "33px",
+              height: "30px",
+              backgroundColor: "#E21A1A",
+              right: -15,
+              marginTop: "25px",
+              transform: "rotateY(0deg) rotate(45deg)",
+            }}
+          ></div>
+          <div
+            style={{
+              height: "12%",
+              backgroundColor: "#E21A1A",
+              color: "white",
+              fontSize: "1.3rem",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            KHQR
+          </div>
+          <div
+            style={{
+              height: "18%",
+              textAlign: "start",
+              padding: "15px",
+              backgroundImage:
+                "linear-gradient(to right, grey 50%, transparent 60%)",
+              backgroundSize:
+                "10px 1px" /* adjust the size of each dash and space */,
+              backgroundPosition:
+                "0 100%" /* position the background at the bottom */,
+              backgroundRepeat: "repeat-x",
+              paddingBottom:
+                "10px" /* adjust the value to control the space below the dashes */,
+            }}
+          >
+            <div style={{ marginLeft: "23px" }}>
+              <Typography>Keyla4U</Typography>
+              <Typography fontSize="1.4rem">
+                $ {orderData.total_amount}
+              </Typography>
+            </div>
+          </div>
+          <div
+            style={{
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <img src={Qrcode} />
+          </div>
+        </div>
+      </Dialog>
       <div
         style={{
           margin: "20px",
@@ -108,8 +219,8 @@ const club = ({ club, pitcheCategories, apiUrl }) => {
           width: "60px",
           textAlign: "center",
         }}
-        onClick={(e) => {
-          e.preventDefault();
+        onClick={() => {
+          // e.preventDefault();
           router.push("/clubs");
         }}
       >
@@ -131,7 +242,9 @@ const club = ({ club, pitcheCategories, apiUrl }) => {
             variant="outlined"
             sx={{ float: "right" }}
             disabled={selectedTimes.length == 0 ? true : false}
-            onClick={order}
+            onClick={() => {
+              order();
+            }}
           >
             Book Now
           </Button>
@@ -140,6 +253,7 @@ const club = ({ club, pitcheCategories, apiUrl }) => {
       <BookingTable
         clubCategoryID={pitcheCategories}
         club={club}
+        apiUrl={apiUrl}
         selectedClub={selectedClub}
       ></BookingTable>
     </div>

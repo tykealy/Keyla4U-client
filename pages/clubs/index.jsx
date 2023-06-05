@@ -5,8 +5,8 @@ import { Grid } from "@mui/material";
 import { RecoilStates } from "../../state/state";
 import { useRecoilValue } from "recoil";
 const ClubsPage = (props) => {
-  // const image = "http://184.72.96.38/Keyla4U-server/public/img";
-  const image = "http://127.0.0.1:8000/img/";
+  const image = "http://184.72.96.38/Keyla4U-server/public/img/";
+  // const image = `${props.apiUrl}http://127.0.0/img/`;
   const { selectedLocationState, selectedSportTypeState } = RecoilStates;
   const selectedSportType = useRecoilValue(selectedSportTypeState);
   const selectedLocation = useRecoilValue(selectedLocationState);
@@ -75,6 +75,7 @@ export async function getServerSideProps() {
       clubs: clubs,
       locations: locations,
       SportTypes: SportTypes,
+      apiUrl: apiUrl,
     },
   };
 }

@@ -8,24 +8,22 @@ import {
   ThemeProvider,
 } from "@mui/material";
 import Image from "next/image";
-import { Fragment } from "react";
 import DrawerComp from "../presentation/DrawerComp";
-import { useState } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import Authentication from "./Authentication";
 import SearchBar from "../presentation/SearchBar";
 import Logo from "./../../public/Logo.png";
 import { RecoilStates } from "../../state/state";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import PropTypes from "prop-types";
 export default function MainNavigation() {
   const router = useRouter();
   const PAGES = ["Home", "Clubs", "About", "Favorites", "Booked"];
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
-
   const { loggedInState, selectedPageState } = RecoilStates;
   const [value, setValue] = useRecoilState(selectedPageState);
   const [loggedIn, setLoggedIn] = useRecoilState(loggedInState);
@@ -111,3 +109,7 @@ export default function MainNavigation() {
     </ThemeProvider>
   );
 }
+
+MainNavigation.propTypes = {
+  apiUrl: PropTypes.string,
+};
