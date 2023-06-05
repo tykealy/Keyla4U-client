@@ -11,12 +11,9 @@ import {
 } from "@mui/material";
 import { RecoilStates } from "../../state/state";
 import { useRecoilState } from "recoil";
-import PropTypes, { array } from "prop-types";
-import { useRouter } from "next/router";
+import PropTypes from "prop-types";
 const PitchList = (props) => {
-  const router = useRouter();
-  const { id } = router.query;
-  const { club, clubCategoriesID } = props;
+  const { apiUrl } = props;
   const { selectedSportState, selectedTimesState, orderItemState } =
     RecoilStates;
   const [selectedSportID, setSelectedSportID] =
@@ -79,16 +76,13 @@ const PitchList = (props) => {
   }, [day]);
 
   React.useEffect(() => {
-    // console.log(availableDays);
     setSelectedTimes([]);
   }, [availableDays]);
 
   //function to get all the pitches related to selected sport
   const getPitches = async () => {
     try {
-      const req = await fetch(
-        `http://127.0.0.1:8000/api/pitches/${selectedSportID}`
-      );
+      const req = await fetch(`${apiUrl}/api/pitches/${selectedSportID}`);
       const pitches = await req.json();
       setPitches(pitches);
     } catch (error) {
@@ -100,7 +94,7 @@ const PitchList = (props) => {
   const getAvailableTime = async () => {
     try {
       const req = await fetch(
-        `http://127.0.0.1:8000/api/availableTimes/${selectedPitch}/${day}`
+        `${apiUrl}/api/availableTimes/${selectedPitch}/${day}`
       );
       const res = await req.json();
       setAvailableTimes(res);
@@ -183,7 +177,7 @@ const PitchList = (props) => {
               return (
                 <Tab
                   label={`Pitch ${pitch.pitch_num}`}
-                  key={pitch.id}
+                  key={index}
                   sx={{
                     "&:hover": {
                       color: "#99CCCC",
@@ -261,8 +255,8 @@ const PitchList = (props) => {
       )}
       <div style={{ padding: "0 10px 10px 10px", textAlign: "center" }}>
         <Grid rowSpacing={2} container>
-          {availableTimes.map((option) => (
-            <Grid item lg={2} md={3} sm={4} xs={6}>
+          {availableTimes.map((option, index) => (
+            <Grid item lg={2} md={3} sm={4} xs={6} key={index}>
               <Button
                 sx={{
                   padding: 2,
@@ -292,7 +286,5 @@ const PitchList = (props) => {
 
 export default PitchList;
 PitchList.propTypes = {
-  club: PropTypes.object.isRequired,
-  clubCategoriesID: PropTypes.array.isRequired,
-  selectedClub: PropTypes.number.isRequired,
+  apiUrl: PropTypes.string.isRequired,
 };

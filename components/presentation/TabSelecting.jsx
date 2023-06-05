@@ -13,9 +13,7 @@ const TabSelecting = (props) => {
   const [selectedSportID, setSelectedSportID] =
     useRecoilState(selectedSportState);
 
-  React.useEffect(() => {
-    console.log(selectedSportID);
-  }, [selectedSportID]);
+  React.useEffect(() => {}, [selectedSportID]);
 
   React.useEffect(() => {
     setSelectedSportID(clubCategoriesID[value]);
@@ -41,10 +39,15 @@ const TabSelecting = (props) => {
   const tabTheme = useTheme();
   const isXs = useMediaQuery(tabTheme.breakpoints.down("sm"));
   const orientation = isXs ? "horizontal" : "vertical";
+  const orientation2 = (orientation) => {
+    let width;
+    orientation == "horizontal" ? (width = "100vw") : "";
+    return width;
+  };
   return (
     <ThemeProvider theme={theme}>
       <div>
-        <Box sx={orientation == "horizontal" && { width: "100vw" }}>
+        <Box sx={{ width: orientation2 }}>
           <Tabs
             TabIndicatorProps={{ style: { background: "teal" } }}
             TabScrollButtonProps={{ style: { color: "teal" } }}

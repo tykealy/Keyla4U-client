@@ -4,8 +4,9 @@ import ModButton from "../presentation/ModButton";
 import { Fragment } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { RecoilStates } from "../../state/state";
+import PropTypes from "prop-types";
 export default function Authentication(props) {
-  const { loggedIn } = props;
+  const { loggedIn, apiUrl } = props;
   const { signupState, loginState, loggedInState } = RecoilStates;
   const [openLogin, setOpenLogin] = useRecoilState(loginState);
   const signup = useRecoilValue(signupState);
@@ -22,12 +23,13 @@ export default function Authentication(props) {
   }
   return (
     <Fragment>
-      <LoginDialog open={openLogin} onClose={onClose} />
+      <LoginDialog apiUrl={apiUrl} open={openLogin} onClose={onClose} />
       <RegisterDialog
         open={signup}
         title="Sign up Form"
         onClose={onClose}
         v75CA2
+        apiUrl={apiUrl}
       />
       {!loggedIn ? (
         <ModButton
@@ -41,3 +43,8 @@ export default function Authentication(props) {
     </Fragment>
   );
 }
+
+Authentication.propTypes = {
+  apiUrl: PropTypes.string,
+  loggedIn: PropTypes.bool,
+};

@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CircularProgress } from "@mui/material";
 import { useRecoilState } from "recoil";
 import { RecoilStates } from "../../state/state";
+import PropTypes from "prop-types";
 function Copyright(props) {
   return (
     <Typography
@@ -34,10 +35,7 @@ function Copyright(props) {
 }
 
 const theme = createTheme();
-
-export default function SignInForm() {
-  const apiUrl = process.env.API_URL;
-
+export default function SignInForm({ apiUrl }) {
   const [loading, setLoading] = React.useState(false);
   const [loginError, setLoginError] = React.useState(false);
   //recoil states
@@ -50,10 +48,13 @@ export default function SignInForm() {
     event.preventDefault();
     setLoading(true);
     const data = new FormData(event.target);
-    const req = await fetch(`http://127.0.0.1:8000/api/login`, {
-      method: "POST",
-      body: data,
-    }).catch((e) => {
+    const req = await fetch(
+      `http://admin.keyla4u.store/Keyla4U-server/public/index.php/api/login`,
+      {
+        method: "POST",
+        body: data,
+      }
+    ).catch((e) => {
       console.log(e);
     });
     req.status == 401 ? setLoginError(true) : setLoginError(false);
@@ -155,3 +156,6 @@ export default function SignInForm() {
     </ThemeProvider>
   );
 }
+SignInForm.propTypes = {
+  apiUrl: PropTypes.string,
+};

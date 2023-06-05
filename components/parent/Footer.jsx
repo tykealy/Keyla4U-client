@@ -135,7 +135,6 @@ export default function Footer() {
               height="230"
               style={{ border: 0 }}
               loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
             ></iframe>
           </Box>
           <Box sx={{ width: "100%", display: "flex", flexDirection: "column" }}>
@@ -259,7 +258,6 @@ export default function Footer() {
               height="230"
               style={{ border: 0 }}
               loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
             ></iframe>
           </Box>
           )

@@ -15,8 +15,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CircularProgress } from "@mui/material";
 import { RecoilStates } from "../../state/state";
 import { useRecoilState } from "recoil";
-export default function SignUp() {
-  const apiUrl = process.env.API_URL;
+import PropTypes from "prop-types";
+export default function SignUp({ apiUrl }) {
   const [loading, setLoading] = React.useState(false);
   const [created, setCreated] = React.useState(true);
 
@@ -31,10 +31,13 @@ export default function SignUp() {
     setLoading(true);
     const data = new FormData(event.target);
 
-    const req = await fetch(`http://127.0.0.1:8000/api/register`, {
-      method: "POST",
-      body: data,
-    }).catch((e) => console.log(e));
+    const req = await fetch(
+      `http://admin.keyla4u.store/Keyla4U-server/public/index.php/api/register`,
+      {
+        method: "POST",
+        body: data,
+      }
+    ).catch((e) => console.log(e));
     if (req.status == 201) {
       setCreated(true);
       const res = await req.json();
@@ -195,3 +198,7 @@ function Copyright(props) {
   );
 }
 const theme = createTheme();
+
+SignUp.propTypes = {
+  apiUrl: PropTypes.string,
+};
