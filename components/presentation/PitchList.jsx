@@ -19,7 +19,6 @@ const PitchList = (props) => {
   const [selectedSportID, setSelectedSportID] =
     useRecoilState(selectedSportState);
   const [pitches, setPitches] = React.useState([]);
-  const [sport, setSport] = React.useState("");
   const [mount, setMount] = React.useState();
   const [value, setValue] = React.useState();
   const [selectedPitch, setSelectedPitch] = React.useState();
@@ -48,6 +47,14 @@ const PitchList = (props) => {
     setDay();
     setAvailableTimes([]);
   }, [selectedPitch]);
+
+  React.useEffect(() => {
+    if (pitches.length > 0 && value == null) {
+      setValue(0);
+      setAvailableDays(pitches[0].availableDays);
+      setSelectedPitch(pitches[0].id);
+    }
+  }, [pitches]);
 
   React.useEffect(() => {
     // availableTimes.length > 0 && console.log(availableTimes);
@@ -193,13 +200,7 @@ const PitchList = (props) => {
           </Tabs>
         </Box>
       </div>
-      {value == null && (
-        <div style={{ textAlign: "center", marginTop: "50px" }}>
-          <Typography fontSize="1.1rem">
-            Please select a pitch number
-          </Typography>
-        </div>
-      )}
+
       {availableDays.length != 0 && (
         <div style={{ border: "1px solid grey", margin: "0px 10px 10px 10px" }}>
           <Box>

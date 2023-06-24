@@ -5,8 +5,9 @@ import { Grid } from "@mui/material";
 import { RecoilStates } from "../../state/state";
 import { useRecoilValue } from "recoil";
 const ClubsPage = (props) => {
-  const image = "http://184.72.96.38/Keyla4U-server/public/img/";
+  const image = "http://admin.keyla4u.store/Keyla4U-server/public/img/";
   // const image = `${props.apiUrl}http://127.0.0/img/`;
+  // const image = `${props.apiUrl}/img/`;
   const { selectedLocationState, selectedSportTypeState } = RecoilStates;
   const selectedSportType = useRecoilValue(selectedSportTypeState);
   const selectedLocation = useRecoilValue(selectedLocationState);
