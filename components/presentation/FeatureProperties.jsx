@@ -19,10 +19,10 @@ export default function FeatureProperties() {
   const CustomBox = styled(Box)(({ theme }) => ({
     padding: theme.spacing(10, 0, 10, 0),
     margin: theme.spacing(0, 2, 0, 2),
-    marginBottom:"3rem",
+    marginBottom: "3rem",
     [theme.breakpoints.down("md")]: {
       padding: "0",
-      marginBottom:"5rem"
+      marginBottom: "5rem",
     },
   }));
 
@@ -38,11 +38,15 @@ export default function FeatureProperties() {
           <Typography
             sx={{ fontSize: "16px", color: "white", fontWeight: "500", my: 3 }}
           >
-            Booking any types of sport you want to play. <br /> Football, Volleyball,
-            Tennis, any sports that the club owners has to offer
+            Booking any types of sport you want to play. <br /> Football,
+            Volleyball, Tennis, any sports that the club owners has to offer
           </Typography>
         </Box>
-        <img src="/iphoneMockup.png" alt="IphoneMockup" style={{ maxWidth:"100%" ,  maxHeight:"100%"}} />
+        <img
+          src="/iphoneMockup.png"
+          alt="IphoneMockup"
+          style={{ maxWidth: "100%", maxHeight: "100%" }}
+        />
       </CustomContainer>
     </CustomBox>
   );

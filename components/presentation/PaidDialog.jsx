@@ -31,6 +31,7 @@ const PaidDialog = ({ open, handlePaidClose }) => {
           <Grid container sx={{ marginTop: "20%" }}>
             <Grid item xs={6} xl={6}>
               <Button
+              onClick={()=>{router.push("/booked")}}
                 variant="filled"
                 sx={{ background: "teal", width: "80%", color: "white" }}
               >
