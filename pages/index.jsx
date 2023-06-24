@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "../styles/Home.module.css";
-<<<<<<< Updated upstream
 import CardSlider from "../components/presentation/CardSlider";
 import Hero from "../components/parent/Hero";
 import Footer from "../components/parent/Footer";
@@ -34,31 +33,4 @@ export default function Home() {
       <Footer />
     </div>
   );
-=======
-import { useRecoilState, useRecoilValue } from "recoil";
-import { RecoilStates } from "../state/state";
-import ContactUsForm from "../components/presentation/ContactUsForm";
-import AboutUs from "../components/presentation/AboutUs"
-export default function Home() {
-  const { signupState, loginState, loggedInState } = RecoilStates;
-  const [openLogin, setOpenLogin] = useRecoilState(loginState);
-  const [signup, setSignup] = useRecoilState(signupState);
-  const [loggedIn, setLoggedIn] = useRecoilState(loggedInState);
-
-  function onClose() {
-    setOpenLogin(false);
-    setSignup(false);
-  }
-  function handleLogin() {
-    setOpenLogin(true);
-  }
-  function handleLogout() {
-    localStorage.removeItem("user");
-    setLoggedIn(false);
-  }
-  return (<div className={styles.container}>
-    <ContactUsForm/>
-    <AboutUs></AboutUs>
-  </div>);
->>>>>>> Stashed changes
 }

@@ -41,7 +41,7 @@ export default function ContactUsForm() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Grid container component="main" sx={{ height: '100vh' }}>
+      {/* <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid
           item
@@ -57,8 +57,8 @@ export default function ContactUsForm() {
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
-        />
-        <Grid item xs={12} sm={6} md={5} component={Paper} elevation={6} square>
+        /> */}
+        {/* <Grid item xs={12} sm={6} md={5} component={Paper} elevation={6} square> */}
           <Box
             sx={{
               my: 8,
@@ -128,8 +128,8 @@ export default function ContactUsForm() {
               <Copyright sx={{ color: 'teal' }} />
             </Box>
           </Box>
-        </Grid>
-      </Grid>
+        {/* </Grid> */}
+      {/* </Grid> */}
     </ThemeProvider>
   );
 }
