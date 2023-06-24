@@ -14,7 +14,6 @@ function MyApp({ Component, pageProps, apiUrl }) {
       <div style={{
        marginBottom:'60px'
       }}></div>
-      <Footer />
     </RecoilRoot>
   );
 }
