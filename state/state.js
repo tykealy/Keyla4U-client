@@ -1,4 +1,3 @@
-import { array } from "prop-types";
 import { atom, selector } from "recoil";
 
 const signupState = atom({

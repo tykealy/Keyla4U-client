@@ -1,5 +1,4 @@
-import { Button, styled, Typography, Box, Container } from "@mui/material";
-import iphoneMockup from "./../../public/iphoneMockup.png";
+import { styled, Typography, Box, Container } from "@mui/material";
 export default function FeatureProperties() {
   const CustomContainer = styled(Container)(({ theme }) => ({
     backgroundColor: "teal",
