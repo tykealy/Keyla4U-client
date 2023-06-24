@@ -30,7 +30,7 @@ export default function Footer() {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <Box>
+    <Box sx={{paddingTop:"35px", marginX:"2rem"}}>
       {isMobile ? (
         <Box
           sx={{
@@ -260,7 +260,6 @@ export default function Footer() {
               loading="lazy"
             ></iframe>
           </Box>
-          )
         </Box>
       )}
     </Box>

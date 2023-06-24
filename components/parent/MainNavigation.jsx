@@ -50,7 +50,7 @@ export default function MainNavigation() {
   });
   return (
     <ThemeProvider theme={theme1}>
-      <AppBar position="sticky" sx={{ marginBottom: 2 }}>
+      <AppBar position="sticky">
         <Toolbar
           sx={{
             backgroundColor: "#ffffff",
