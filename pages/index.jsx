@@ -30,7 +30,6 @@ export default function Home() {
       <CardSlider data={data} />
       <br /> <br /> <br />
       <FeatureProperties />
-      <Footer />
     </div>
   );
 }
