@@ -1,13 +1,13 @@
 import React from "react";
 import BookingTable from "../../components/parent/BookingTable";
 import { RecoilStates } from "../../state/state";
-import { Box, Button, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { useRouter } from "next/router";
 import { createTheme, ThemeProvider, Dialog } from "@mui/material";
 import { useRecoilValue } from "recoil";
-import PaidDialog from "../../components/presentation/paidDialog";
-const club = ({ club, pitcheCategories, apiUrl }) => {
+import PaidDialog from "../../components/presentation/PaidDialog";
+const Club = ({ club, pitcheCategories, apiUrl }) => {
   const buttonTheme = createTheme({
     components: {
       MuiButton: {
@@ -97,7 +97,7 @@ const club = ({ club, pitcheCategories, apiUrl }) => {
   const orderItem = useRecoilValue(orderItemState);
   const [qrOpen, setQrOpen] = React.useState(false);
   const [Qrcode, setQrcode] = React.useState("");
-  const [paid, setPaid] = React.useState("");
+  const [paid, setPaid] = React.useState(false);
   const closeqr = () => {
     setQrOpen(false);
     setOrderData({});
@@ -220,7 +220,6 @@ const club = ({ club, pitcheCategories, apiUrl }) => {
           textAlign: "center",
         }}
         onClick={() => {
-          // e.preventDefault();
           router.push("/clubs");
         }}
       >
@@ -260,7 +259,7 @@ const club = ({ club, pitcheCategories, apiUrl }) => {
   );
 };
 
-export default club;
+export default Club;
 
 export async function getServerSideProps(context) {
   const selectedClub = context.query.id;

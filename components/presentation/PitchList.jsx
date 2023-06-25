@@ -19,7 +19,7 @@ const PitchList = (props) => {
   const [selectedSportID, setSelectedSportID] =
     useRecoilState(selectedSportState);
   const [pitches, setPitches] = React.useState([]);
-  const [mount, setMount] = React.useState();
+  const [mount, setMount] = React.useState(false);
   const [value, setValue] = React.useState();
   const [selectedPitch, setSelectedPitch] = React.useState();
 
@@ -29,7 +29,6 @@ const PitchList = (props) => {
 
   const [availableTimes, setAvailableTimes] = React.useState([]);
   const [selectedTimes, setSelectedTimes] = useRecoilState(selectedTimesState);
-  // const [selectedValues, setSelectedValues] = React.useState([]);
   const [orderItem, setOrderItem] = useRecoilState(orderItemState);
   //click event
   const handlePitchClick = (e, pitchID) => {
@@ -49,7 +48,7 @@ const PitchList = (props) => {
   }, [selectedPitch]);
 
   React.useEffect(() => {
-    if (pitches.length > 0 && value == null) {
+    if (pitches.length > 0) {
       setValue(0);
       setAvailableDays(pitches[0].availableDays);
       setSelectedPitch(pitches[0].id);
@@ -57,12 +56,8 @@ const PitchList = (props) => {
   }, [pitches]);
 
   React.useEffect(() => {
-    // availableTimes.length > 0 && console.log(availableTimes);
-  }, [availableTimes]);
-
-  React.useEffect(() => {
     setMount(true);
-  });
+  }, []);
 
   //when the new sport type is selected, reset all the selectedPitch, day,
   //and refetch all the pitches that related to the new slected sport type.
