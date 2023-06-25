@@ -127,7 +127,7 @@ export default function BookedCard(props) {
               fontSize: isMobile ? "0.6rem" : "1rem",
             }}
           >
-            Price: {props.price}
+            Price: {props.price}$
           </Typography>
         </Box>
         <Button
