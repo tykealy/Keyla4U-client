@@ -9,7 +9,7 @@ const BookedPage = (props) => {
   }, []);
 
   const getUserOrders = async () => {
-    const user = JSON.parse(localStorage.getItem("user")).id;
+    const user = JSON.parse(localStorage.getItem("user"))?.id;
     const response = await fetch(`${props.apiUrl}/api/orders/${user}}`);
     const data = await response.json();
     setOrders(data);

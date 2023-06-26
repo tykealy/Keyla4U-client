@@ -11,7 +11,7 @@ const socialLinks = [
   { name: "Instagram", url: "https://www.instagram.com/cadtofficial/" },
   {
     name: "LinkedIn",
-    url: "https://www.linkedin.com/company/cambodia-academy-of-digital-technology/",
+    url: "https://kh.linkedin.com/in/tykea"
   },
 ];
 
@@ -253,7 +253,7 @@ export default function Footer() {
           </Box>
           <Box sx={{ marginRight: "0.5rem" }}>
             <iframe
-              src={map}
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3907.5653598562944!2d104.90884797541152!3d11.654288988552969!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x310953bad45e4ee1%3A0x6c33cb023d508017!2sCADT%20-%20Innovation%20Center!5e0!3m2!1sen!2skh!4v1687745908241!5m2!1sen!2skh"
               width="340"
               height="230"
               style={{ border: 0 }}

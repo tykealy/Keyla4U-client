@@ -66,6 +66,10 @@ const Club = ({ club, pitcheCategories, apiUrl }) => {
   };
 
   const order = async (event) => {
+    if(localStorage.getItem('user')== null){
+      alert("Please login before booking.")
+      return
+    }
     const data = constructOrder();
     const formData = new FormData();
 
